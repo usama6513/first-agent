@@ -1,3 +1,10 @@
+from dotenv import load_dotenv
+import os
+from agents import Agent, Runner, AsyncOpenAI, RunConfig, OpenAIChatCompletionsModel
+
+load_dotenv()
+gemini_api_key = os.getenv("GEMINI_API_KEY")
+
 # Check if the API key is present; if not, raise an error
 if not gemini_api_key:
     raise ValueError("GEMINI_API_KEY is not set. Please ensure it is defined in your .env file.")
@@ -19,3 +26,16 @@ config = RunConfig(
     tracing_disabled=True
 )
      
+
+agent = Agent(
+    name="Translator",
+    instructions="You are a helpful Translator always translate english sentences into clear and simple  urdu."
+)
+
+response = Runner.run_sync(
+    agent,
+    input= "My name is Aryan K. I am a student of GIAIC of Agentic AI.",
+    run_config= config
+)
+
+print(response)
